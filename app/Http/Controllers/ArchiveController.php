@@ -13,12 +13,18 @@ class ArchiveController extends Controller
     {
         $getArchiveDate = Archive::with('leaders')->select('id', 'archive_date')->get();
 
+        if (1 == 1) {
+        }
         return Inertia::render('welcome', compact('getArchiveDate'));
     }
 
     public function show(Leader $leader)
     {
-        $leader->load('songs');
+        $leader->load(['songs' => function ($query) {
+            if ($search = request('search')) {
+                $query->where('song_title', 'like', '%' . $search . '%');
+            }
+        }]);
 
         return Inertia::render('leader', compact('leader'));
     }

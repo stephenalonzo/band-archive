@@ -56,16 +56,28 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $song = Song::create([
-            'leader_id' => 1,
-            'song_title' => 'God of All My Days',
-            'chords_image_path' => 'https://cloud-deploy-laravel.s3.ap-southeast-2.amazonaws.com/mbfc_songs/special-number_Stephen_20261011.png',
-            'created_at' => date('2026-10-11')
-        ]);
+        $songs = [
+            [
+                'leader_id' => 1,
+                'song_title' => 'God of All My Days',
+                'chords_image_path' => 'https://cloud-deploy-laravel.s3.ap-southeast-2.amazonaws.com/mbfc_songs/special-number_Stephen_20261011.png',
+                'created_at' => date('2026-10-11')
+            ],
+            [
+                'leader_id' => 1,
+                'song_title' => 'Holy Forever',
+                'chords_image_path' => 'https://cloud-deploy-laravel.s3.ap-southeast-2.amazonaws.com/mbfc_songs/special-number_Stephen_20261011.png',
+                'created_at' => date('2026-10-11')
+            ]
+        ];
 
-        LeaderSong::create([
-            'leader_id' => $song->leader_id,
-            'song_id' => $song->id
-        ]);
+        foreach ($songs as $song) {
+            $songLeader = Song::create($song);
+
+            LeaderSong::create([
+                'leader_id' => $songLeader->leader_id,
+                'song_id' => $songLeader->id
+            ]);
+        }
     }
 }
