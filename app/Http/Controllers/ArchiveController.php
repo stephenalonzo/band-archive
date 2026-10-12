@@ -18,6 +18,8 @@ class ArchiveController extends Controller
 
     public function show(Leader $leader)
     {
+        $leader->load('songs');
+
         return Inertia::render('leader', compact('leader'));
     }
 }

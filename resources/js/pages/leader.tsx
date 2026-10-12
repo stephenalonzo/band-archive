@@ -1,22 +1,30 @@
 import { usePage } from "@inertiajs/react";
 import { route } from 'ziggy-js';
 
-interface Leaders {
+interface Songs {
+    id: number,
+    created_at: string,
+    song_title: string,
+    chords_image_path: string
+}
+interface Leader {
     id: number,
     song_leader_name: string,
-    className: string
+    className: string,
+    songs: Songs[]
 }
-interface getArchiveDate {
-    id: number,
-    archive_date: string
-    leaders: Leaders[]
-}
+// interface getArchiveDate {
+//     id: number,
+//     archive_date: string
+//     leaders: Leaders[]
+// }
 interface ArchiveProps {
-    getArchiveDate: getArchiveDate[]
+    // getArchiveDate: getArchiveDate[]
+    leader: Leader
 }
 
 export default function Leader() {
-    const { getArchiveDate } = (usePage().props as unknown) as ArchiveProps;
+    const { leader } = (usePage().props as unknown) as ArchiveProps;
 
     function formatMonthYear(dateString: any) {
         if (!dateString) return '';
@@ -44,7 +52,16 @@ export default function Leader() {
                     </div>
                 </form>
                 <div>
-                    <p>You are viewing a song leader!</p>
+                    {leader.songs.map((song) => (
+                        <div key={song.id} className="px-4 py-6 rounded-md bg-gray-50 border border-gray-300 space-y-4">
+                            <h3 className="text-xl font-semibold">{song.song_title}</h3>
+                            <div className="grid grid-cols-3 gap-3 text-center">
+                                <a href={song.chords_image_path} className={leader.className}>
+                                    View Chords
+                                </a>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>
